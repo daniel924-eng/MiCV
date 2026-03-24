@@ -211,6 +211,130 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── PHOTO PLACEHOLDER ── */
+    .photo-wrap {
+      position: absolute;
+      right: 4rem;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.9s forwards;
+    }
+    @media (max-width: 860px) { .photo-wrap { display: none; } }
+
+    .photo-placeholder {
+      width: 240px;
+      height: 300px;
+      border-radius: 20px;
+      border: 2px dashed rgba(14,165,233,0.45);
+      background: rgba(14,165,233,0.06);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .photo-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(14,165,233,0.08), rgba(6,182,212,0.04));
+    }
+    .photo-placeholder:hover {
+      border-color: var(--sky);
+      background: rgba(14,165,233,0.1);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px var(--glow);
+    }
+    .photo-placeholder img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 18px;
+      display: none;
+    }
+    .photo-placeholder.has-photo img { display: block; }
+    .photo-placeholder.has-photo .ph-content { display: none; }
+
+    .ph-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+    .ph-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(14,165,233,0.15);
+      border: 1.5px solid rgba(14,165,233,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+    }
+    .ph-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--sky);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .ph-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .photo-corner {
+      position: absolute;
+      width: 16px; height: 16px;
+      border-color: var(--sky);
+      border-style: solid;
+      opacity: 0.5;
+    }
+    .photo-corner.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .photo-corner.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+    .photo-corner.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+    .photo-corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+    /* about photo — small inline */
+    .about-photo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .about-photo-placeholder {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 2px dashed rgba(14,165,233,0.45);
+      background: rgba(14,165,233,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+    .about-photo-placeholder:hover { border-color: var(--sky); background: rgba(14,165,233,0.1); }
+    .about-photo-placeholder img { width:100%;height:100%;object-fit:cover;display:none; }
+    .about-photo-placeholder.has-photo img { display:block; }
+    .about-photo-placeholder.has-photo .ph-content { display:none; }
+    .about-photo-hint {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
     /* ── SECTIONS ── */
     section {
       position: relative;
@@ -509,6 +633,23 @@
       </div>
     </div>
 
+    <!-- FOTO HERO -->
+    <div class="photo-wrap">
+      <div class="photo-placeholder" id="heroPhoto" onclick="document.getElementById('heroFileInput').click()" title="Clic para subir tu foto">
+        <div class="photo-corner tl"></div>
+        <div class="photo-corner tr"></div>
+        <div class="photo-corner bl"></div>
+        <div class="photo-corner br"></div>
+        <img id="heroImg" src="" alt="Foto de Daniel Moyron" />
+        <div class="ph-content">
+          <div class="ph-icon">📷</div>
+          <div class="ph-label">Tu foto aquí</div>
+          <div class="ph-sub">Clic para subir<br>tu imagen</div>
+        </div>
+      </div>
+    </div>
+    <input type="file" id="heroFileInput" accept="image/*" style="display:none" onchange="loadPhoto(this,'heroImg','heroPhoto','aboutImg','aboutPhoto')">
+
     <div class="scroll-hint">
       <div class="scroll-line"></div>
       Scroll para explorar
@@ -520,7 +661,18 @@
     <div class="section-label">// 01 — Sobre mí</div>
     <h2>Perfil <span>profesional</span></h2>
 
-    <div class="about-grid">
+    <div class="about-grid" style="grid-template-columns: 180px 1fr 1fr; gap: 2.5rem;">
+      <div class="about-photo-wrap">
+        <div class="about-photo-placeholder" id="aboutPhoto" onclick="document.getElementById('heroFileInput').click()" title="Clic para subir tu foto">
+          <img id="aboutImg" src="" alt="Foto de Daniel Moyron" />
+          <div class="ph-content">
+            <div class="ph-icon" style="width:42px;height:42px;font-size:1.2rem;">📷</div>
+            <div class="ph-sub" style="font-size:0.68rem;">Tu foto<br>de perfil</div>
+          </div>
+        </div>
+        <div class="about-photo-hint">foto de perfil</div>
+      </div>
+
       <div class="about-text">
         <p>
           Soy estudiante del 4.° semestre de Ingeniería en Fuentes de Energía Renovables
@@ -654,17 +806,10 @@
       <div class="section-label" style="color:var(--accent2); margin-bottom:0.8rem;">// 05 — Contacto</div>
       <h2 style="color:#fff; margin-bottom:0.5rem;">¿Hablamos?</h2>
       <p>¿Tienes un proyecto de energías renovables, una propuesta de colaboración<br>o simplemente quieres conectar? Escríbeme.</p>
-      <a href="mailto:cavieses@uabcs.mx" class="btn btn-primary">
+      <a href="/cdn-cgi/l/email-protection#0f6c6e79666a7c6a7c4f7a6e6d6c7c216277" class="btn btn-primary">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
         Enviar correo
       </a>
-      <div class="contact-email">cavieses@uabcs.mx</div>
+      <div class="contact-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c4a7a5b2ada1b7a1b784b1a5a6a7b7eaa9bc">[email&#160;protected]</a></div>
     </div>
-  </section>
-
-  <footer>
-    Hecho con <span>♥</span> en La Paz, Baja California Sur · Daniel Moyron Hernández · <span>UABCS</span>
-  </footer>
-
-</body>
-</html>
+  </se
