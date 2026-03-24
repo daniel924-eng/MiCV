@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daniel Moyron Hernández — Ingeniería en Energías Renovables</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sky: #0ea5e9;
+      --sky-light: #e0f2fe;
+      --sky-mid: #bae6fd;
+      --navy: #0c4a6e;
+      --navy-deep: #082f49;
+      --slate: #38bdf8;
+      --accent: #06b6d4;
+      --accent2: #7dd3fc;
+      --white: #f0f9ff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --card: rgba(255,255,255,0.72);
+      --border: rgba(14,165,233,0.18);
+      --glow: rgba(14,165,233,0.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── GRID BG ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(14,165,233,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(14,165,233,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HERO ── */
+    header {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+      animation: drift 10s ease-in-out infinite alternate;
+    }
+    .blob-1 { width: 520px; height: 520px; background: var(--sky); top: -120px; right: -80px; animation-delay: 0s; }
+    .blob-2 { width: 380px; height: 380px; background: var(--accent); bottom: 0; left: -100px; animation-delay: -4s; }
+    .blob-3 { width: 260px; height: 260px; background: var(--navy); top: 40%; left: 30%; animation-delay: -2s; opacity: 0.15; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(20px, 30px) scale(1.06); }
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 800px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(14,165,233,0.12);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--sky);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--sky);
+      border-radius: 50%;
+      animation: blink 1.6s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--navy-deep);
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+    h1 span { color: var(--sky); }
+
+    .hero-sub {
+      margin-top: 1.4rem;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.7;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s forwards;
+    }
+    .tag {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      color: var(--navy);
+      backdrop-filter: blur(8px);
+      font-weight: 500;
+      transition: all 0.25s;
+    }
+    .tag:hover { background: var(--sky); color: #fff; transform: translateY(-2px); }
+
+    .cta-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--sky), var(--accent));
+      color: #fff;
+      box-shadow: 0 8px 24px var(--glow);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 36px var(--glow); }
+    .btn-ghost {
+      border: 1.5px solid var(--border);
+      color: var(--navy);
+      background: var(--card);
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover { border-color: var(--sky); color: var(--sky); transform: translateY(-3px); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s forwards;
+    }
+    .scroll-line {
+      width: 40px; height: 1px;
+      background: linear-gradient(90deg, var(--sky), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 0.6rem;
+    }
+
+    h2 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--navy-deep);
+      margin-bottom: 2.5rem;
+      line-height: 1.2;
+    }
+    h2 span { color: var(--sky); }
+
+    /* ── CARDS GRID ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(14,165,233,0.07), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px var(--glow); }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 640px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-text p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: 0.97rem;
+    }
+
+    .stat-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--sky);
+      border-radius: 10px;
+      padding: 1.2rem 1.4rem;
+      backdrop-filter: blur(8px);
+    }
+    .stat .num {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.8rem;
+      color: var(--sky);
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat .lbl {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--sky), transparent);
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 1.4rem;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 6px;
+      width: 10px; height: 10px;
+      background: var(--sky);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.2);
+    }
+    .tl-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--sky);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .tl-item h4 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--navy);
+      margin: 4px 0 6px;
+    }
+    .tl-item p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── INTERESTS ── */
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .interest-card {
+      background: linear-gradient(135deg, var(--card), rgba(186,230,253,0.3));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s;
+      backdrop-filter: blur(8px);
+    }
+    .interest-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 16px 40px var(--glow); }
+    .interest-card .icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+    .interest-card h4 { font-family: 'Space Mono', monospace; font-size: 0.85rem; color: var(--navy); margin-bottom: 4px; }
+    .interest-card p { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      background: linear-gradient(135deg, var(--navy-deep), var(--navy));
+      border-radius: 20px;
+      padding: 3.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-box::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230ea5e9' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 1;
+      pointer-events: none;
+    }
+    .contact-box h2 { color: #fff; margin-bottom: 0.5rem; }
+    .contact-box p { color: rgba(255,255,255,0.65); margin-bottom: 2rem; font-size: 0.97rem; }
+    .contact-box .btn-primary { font-size: 1rem; padding: 14px 36px; }
+    .contact-email {
+      margin-top: 1.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 1.5rem;
+      right: 2rem;
+      z-index: 100;
+      display: flex;
+      gap: 6px;
+      background: rgba(240,249,255,0.85);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      backdrop-filter: blur(14px);
+    }
+    nav a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      transition: all 0.2s;
+    }
+    nav a:hover { background: var(--sky); color: #fff; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--sky-mid), transparent);
+      margin: 0 auto;
+      max-width: 700px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      position: relative;
+      z-index: 1;
+    }
+    footer span { color: var(--sky); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#experiencia">Experiencia</a>
+    <a href="#intereses">Intereses</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+
+  <!-- HERO -->
+  <header>
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+    <div class="hero-blob blob-3"></div>
+
+    <div class="hero-inner">
+      <div class="badge">Disponible para proyectos &amp; colaboraciones</div>
+
+      <h1>Daniel Moyron<br><span>Hernández</span></h1>
+
+      <p class="hero-sub">
+        Estudiante de Ingeniería en Fuentes de Energía Renovables en la UABCS.
+        Músico, piloto de off-road y apasionado por la tecnología sostenible.
+      </p>
+
+      <div class="hero-tags">
+        <span class="tag">⚡ Energías Renovables</span>
+        <span class="tag">🎸 Músico</span>
+        <span class="tag">🏁 Off-Road Racing</span>
+        <span class="tag">🌊 Baja California Sur</span>
+      </div>
+
+      <div class="cta-row">
+        <a href="#contacto" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Contactarme
+        </a>
+        <a href="#sobre-mi" class="btn btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Conocer más
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll para explorar
+    </div>
+  </header>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre-mi">
+    <div class="section-label">// 01 — Sobre mí</div>
+    <h2>Perfil <span>profesional</span></h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          Soy estudiante del 4.° semestre de Ingeniería en Fuentes de Energía Renovables
+          en el Departamento Académico de Ingeniería en Pesquerías de la Universidad
+          Autónoma de Baja California Sur (UABCS).
+        </p>
+        <p>
+          Mi enfoque académico combina ciencias de la ingeniería con el desarrollo
+          de soluciones energéticas sostenibles, preparándome para los desafíos
+          del sector renovable en la región noroeste de México y más allá.
+        </p>
+        <p>
+          Fuera del aula, me expreso a través de la música y el deporte motor,
+          disciplinas que me enseñan precisión, trabajo en equipo y mentalidad
+          orientada a resultados.
+        </p>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat">
+          <div class="num">19</div>
+          <div class="lbl">Años de edad</div>
+        </div>
+        <div class="stat">
+          <div class="num">4.°</div>
+          <div class="lbl">Semestre — Ing. Fuentes de Energía Renovables</div>
+        </div>
+        <div class="stat">
+          <div class="num">UABCS</div>
+          <div class="lbl">Universidad Autónoma de Baja California Sur</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HABILIDADES -->
+  <section id="habilidades">
+    <div class="section-label">// 02 — Competencias</div>
+    <h2>Áreas de <span>enfoque</span></h2>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-icon">☀️</span>
+        <h3>Energías Renovables</h3>
+        <p>Formación orientada al diseño y análisis de sistemas de energía solar, eólica y otras fuentes limpias aplicables al contexto regional.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔬</span>
+        <h3>Ingeniería Aplicada</h3>
+        <p>Bases sólidas en ciencias exactas, termodinámica y conversión de energía, con enfoque en sustentabilidad y eficiencia.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌊</span>
+        <h3>Contexto Marino</h3>
+        <p>Integración de la ingeniería en pesquerías con tecnologías de energía renovable para comunidades costeras y marítimas.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎸</span>
+        <h3>Comunicación &amp; Expresión</h3>
+        <p>La música desarrolla escucha activa, trabajo en equipo y disciplina creativa — competencias clave en cualquier entorno profesional.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCIA / TIMELINE -->
+  <section id="experiencia">
+    <div class="section-label">// 03 — Trayectoria</div>
+    <h2>Experiencia <span>&amp; actividades</span></h2>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">2023 — Presente</div>
+        <h4>Ingeniería en Fuentes de Energía Renovables — UABCS</h4>
+        <p>Cursando el 4.° semestre del programa, con enfoque en sistemas de conversión energética, sustentabilidad y su aplicación en el entorno marino-pesquero de Baja California Sur.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Actual</div>
+        <h4>Músico — Grupo "Ideales de la Baja"</h4>
+        <p>Ejecutante de requinto en agrupación regional. Participación en eventos privados y públicos a lo largo de Baja California Sur, desarrollando disciplina escénica y trabajo colaborativo.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">Competencias</div>
+        <h4>Piloto Off-Road — Categoría 14</h4>
+        <p>Participante en circuitos de carreras de off-road como Circuito Bronco y Rancho ProBaja, como co-piloto del bicampeón "El Pato Lucas" del equipo Welding Estrada. Experiencia en trabajo bajo presión y estrategia de carrera.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- INTERESES -->
+  <section id="intereses">
+    <div class="section-label">// 04 — Intereses</div>
+    <h2>Lo que me <span>apasiona</span></h2>
+
+    <div class="interests-grid">
+      <div class="interest-card">
+        <div class="icon">⚡</div>
+        <h4>Energía Solar</h4>
+        <p>Sistemas fotovoltaicos y su integración en comunidades de la región.</p>
+      </div>
+      <div class="interest-card">
+        <div class="icon">🏁</div>
+        <h4>Off-Road Racing</h4>
+        <p>Competencias de rally en el desierto peninsular bajacaliforniano.</p>
+      </div>
+      <div class="interest-card">
+        <div class="icon">🎸</div>
+        <h4>Requinto</h4>
+        <p>Música regional con presencia en eventos de la comunidad.</p>
+      </div>
+      <div class="interest-card">
+        <div class="icon">🌊</div>
+        <h4>Sustentabilidad Marina</h4>
+        <p>Tecnologías limpias aplicadas al sector pesquero y costero.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACTO -->
+  <section id="contacto" style="padding-bottom: 2rem;">
+    <div class="contact-box">
+      <div class="section-label" style="color:var(--accent2); margin-bottom:0.8rem;">// 05 — Contacto</div>
+      <h2 style="color:#fff; margin-bottom:0.5rem;">¿Hablamos?</h2>
+      <p>¿Tienes un proyecto de energías renovables, una propuesta de colaboración<br>o simplemente quieres conectar? Escríbeme.</p>
+      <a href="mailto:cavieses@uabcs.mx" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        Enviar correo
+      </a>
+      <div class="contact-email">cavieses@uabcs.mx</div>
+    </div>
+  </section>
+
+  <footer>
+    Hecho con <span>♥</span> en La Paz, Baja California Sur · Daniel Moyron Hernández · <span>UABCS</span>
+  </footer>
+
+</body>
+</html>
